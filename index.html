@@ -13,17 +13,17 @@
     <div class="container">
         <!-- Buttons -->
         <div class="row">
-            <div class="col-md-12 padding-top-md">
-                <button type="button" class="btn btn-warning">Los Angeles</button>
-                <button type="button" class="btn btn-warning">New York</button>
-                <button type="button" class="btn btn-warning">Las Vegas</button>
-                <button type="button" class="btn btn-warning">Chicago</button>
-                <button type="button" class="btn btn-warning">Seattle</button>
-                <button type="button" class="btn btn-warning">Moscow</button>
-                <button type="button" class="btn btn-warning">Seoul</button>
-                <button type="button" class="btn btn-warning">London</button>
-                <button type="button" class="btn btn-warning">Paris</button>
-                <button type="button" class="btn btn-warning">Tokyo</button>
+            <div class="col-md-12 padding-top-md button-area">
+                <button type="button" class="btn btn-warning" data-city="Los Angeles">Los Angeles</button>
+                <button type="button" class="btn btn-warning" data-city="New York">New York</button>
+                <button type="button" class="btn btn-warning" data-city="Las Vegas">Las Vegas</button>
+                <button type="button" class="btn btn-warning" data-city="Chicago">Chicago</button>
+                <button type="button" class="btn btn-warning" data-city="Seattle">Seattle</button>
+                <button type="button" class="btn btn-warning" data-city="Moscow">Moscow</button>
+                <button type="button" class="btn btn-warning" data-city="Seoul">Seoul</button>
+                <button type="button" class="btn btn-warning" data-city="London">London</button>
+                <button type="button" class="btn btn-warning" data-city="Paris">Paris</button>
+                <button type="button" class="btn btn-warning" data-city="Tokyo">Tokyo</button>
             </div>
         </div>
 
@@ -79,42 +79,68 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
 
-        var queryURL = "https://api.giphy.com/v1/gifs/trending?api_key=U01fTii8tntOIZk6dMQTyc3V3CT6bedo";
+        $(".btn-warning").on("click", function () {
+            var city = $(this).attr("data-city");
 
-        
+            // For some reason my API wont work so I used one from the assigments
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + city + "&api_key=dc6zaTOxFJmzC&limit=10";
 
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            })
 
-            $(".btn-warning").click(function(){
-                // console.log ("test");
-                
+                .then(function (response) {
+                    var results = response.data;
+
+                    // Why do we have to create a for loop?
+                    for (var i = 0; i < results.length; i++) {
+                        var gifDiv = $("<div>");
+                        var rating = results[i].rating;
+                        var p = $("<p>").text("Rating: " + rating);
+                        var cityImage = $("<img>");
+
+                        cityImage.attr("src", results[i].images.fixed_height.url);
+                        gifDiv.append(p);
+                        gifDiv.append(cityImage);
+
+                        $(".gif-body").prepend(gifDiv);
+
+                        // Change state of gif
+                        cityImage.on("click", function () {
+
+                            cityImage.attr({
+                                "src": responseElem.images.original_still.url,
+                                "data-still": responseElem.images.original_still.url,
+                                "data-animate": responseElem.images.original.url,
+                                "data-state": "still",
+                                "class": "gif"
+                            });
+                            
+                            var state = $(this).attr("data-state");
+
+                            if (state === "still") {
+                                $(this).attr("src", $(this).attr("data-animate"));
+                                $(this).attr("data-state", "animate");
+                            } else {
+                                $(this).attr("src", $(this).attr("data-still"));
+                                $(this).attr("data-state", "still");
+                            }
+
+
+                        });
+
+                    }
 
 
 
-
-
-            });
-
-
-
-
+                });
 
         });
 
 
-
-
-
-
-
-
-
-
     </script>
+
 </body>
 
 </html>
