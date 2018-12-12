@@ -100,6 +100,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
 
+
+        // Adding button to list
+        $(".btn-secondary").on("click", function () {
+            var newBtn = $("<button class='btn-warning'>");
+            $(".button-area").append(newBtn);
+
+            var nameCity = $(".form-control");
+            newBtn.text(nameCity);
+
+            // Getting input from the form
+            function nameButton() {
+                var newCity = $(".form-control").val();
+                $(".button-area").append(newCity);
+            };
+
+        });
+
+
+
         $(".btn-warning").on("click", function () {
             var city = $(this).attr("data-city");
 
@@ -130,23 +149,6 @@
                         // Change state of gif
                         cityImage.on("click", function () {
 
-                            cityImage.attr({
-                                "src": responseElem.images.original_still.url,
-                                "data-still": responseElem.images.original_still.url,
-                                "data-animate": responseElem.images.original.url,
-                                "data-state": "still",
-                                "class": "gif"
-                            });
-                            
-                            var state = $(this).attr("data-state");
-
-                            if (state === "still") {
-                                $(this).attr("src", $(this).attr("data-animate"));
-                                $(this).attr("data-state", "animate");
-                            } else {
-                                $(this).attr("src", $(this).attr("data-still"));
-                                $(this).attr("data-state", "still");
-                            }
 
 
                         });
