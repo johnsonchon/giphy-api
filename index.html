@@ -70,6 +70,27 @@
         .input-group {
             margin-top: 20px;
         }
+
+        .gif-body {
+            padding-top: 20px;
+            background-color: white;
+            padding-bottom: 80px;
+        }
+
+        .new {
+            float: left;
+            margin-top: 20px;
+        }
+
+        .new img {
+            width: 350px;
+            height: 200px;
+            object-fit: cover;
+            padding-right: 30px;
+        }
+
+        
+
     
     
     </style>
@@ -95,12 +116,12 @@
 
                     // Why do we have to create a for loop?
                     for (var i = 0; i < results.length; i++) {
-                        var gifDiv = $("<div>");
+                        var gifDiv = $("<div class='new'>");
                         var rating = results[i].rating;
                         var p = $("<p>").text("Rating: " + rating);
                         var cityImage = $("<img>");
 
-                        cityImage.attr("src", results[i].images.fixed_height.url);
+                        cityImage.attr("src", results[i].images.fixed_width.url);
                         gifDiv.append(p);
                         gifDiv.append(cityImage);
 
